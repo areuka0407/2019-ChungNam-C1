@@ -257,7 +257,7 @@ class Database {
             $nav.innerHTML = "";
             $groups.forEach(([$input, $select]) => {
                 let name = $input.value;
-                let href = "/teaser_builder.html"+ ($select.value ? "?code="+$select.value : "");
+                let href = "/admin/teaser_builder.html"+ ($select.value ? "?code="+$select.value : "");
 
                 if(name && href){
                     $nav.innerHTML += `<div class="n-item"><a href="${href}">${name}</a></div>`;
@@ -457,8 +457,8 @@ class Database {
          $tbody.innerHTML = "";
          sites.sort((a, b) => a.created_at - b.created_at).forEach(x => {
              let elem = document.createElement("tr");
-             elem.dataset.id = x.id;
-             app.viewCode == x.id && elem.classList.add("active");
+             elem.dataset.code = x.code;
+             app.viewCode == x.code && elem.classList.add("active");
              elem.innerHTML =  `<td>${x.name}</td>
                                 <td>${x.title}</td>
                                 <td colspan="2">${x.description}</td>
@@ -471,7 +471,7 @@ class Database {
                 exist && exist.classList.remove("active");
                 e.currentTarget.classList.add("active");
                 app.viewCode = x.code;
-                history.pushState({code: x.code}, null, "/teaser_builder.html?code="+x.code);
+                history.pushState({code: x.code}, null, "/admin/teaser_builder.html?code="+x.code);
                 app.update();
             });
             
@@ -562,7 +562,7 @@ class Database {
             this.$popup.classList.remove("active");
             this.update();
             
-            history.pushState({code}, null, "/teaser_builder.html?code="+code);
+            history.pushState({code}, null, "/admin/teaser_builder.html?code="+code);
          });
      }
 
@@ -639,14 +639,15 @@ class App {
 
     event(){
         // Active 클래스 토글
-        let needToggleActive = ["#open-manage", "#open-create", "#page-create .tool .name"];
-        needToggleActive.forEach(select => {
-            document.querySelectorAll(select).forEach((elem, i, list) => {
-                elem.addEventListener("click", e => {
-                    let exist = Array.from(list).find(x => x !== elem && x.classList.contains("active"));
-                    exist && exist.classList.remove("active");
-                    e.currentTarget.classList.toggle("active");
-                });
+        document.querySelectorAll(".toggle-active").forEach((elem, i, list) => {
+            elem.addEventListener("click", e => {
+                let target = elem.dataset.target ? document.querySelector(elem.dataset.target) : null;
+                if(target) target.classList.toggle("active");
+
+                let overlap = elem.dataset.overlap || null;
+                if(overlap) document.querySelectorAll(overlap).forEach(x => x.classList.remove("active"));
+
+                elem.classList.toggle("active");
             });
         });
 
@@ -679,6 +680,26 @@ class App {
         window.addEventListener("scroll", e => {
             let exist = document.querySelector(".context-menu");
             exist && exist.remove();
+        });
+
+        // 사이트 저장
+        document.querySelector("#save-site").addEventListener("click", async e => {
+            if(!this.viewCode) return alert("사이트를 먼저 선택하십시오");
+
+            let site = await db.get("sites", this.viewCode);
+            if(!site) return alert("해당 사이트가 존재하지 않습니다. 사이트를 재선택해 주십시오.");
+            site.contents = this.$wrap.outerHTML;
+            
+            let form = new FormData();
+            Object.keys(site).forEach(key => {
+                form.append(key, site[key]);
+            });
+
+            fetch(new Request("/admin/set-site", {method: "post", body: form}))
+            .then(x => x.json())
+            .then(x => {
+                console.log(x);
+            });
         });
     }
 

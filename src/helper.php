@@ -17,6 +17,7 @@ function redirect($url, $message = null){
     if($message) echo "alert('$message');";
     echo "location.href='$url';";
     echo "</script>";
+    exit;
 }
 
 function back($message = null){
@@ -24,6 +25,7 @@ function back($message = null){
     if($message) echo "alert('$message');";
     echo "history.back();";
     echo "</script>";
+    exit;
 }
 
 function user(){
@@ -40,5 +42,23 @@ function view($pageName, $data = []){
     $data['pageName'] = $pageName;
     extract($data);
 
+    require VIEWS.DS."components".DS."header.php";
     require VIEWS.DS.$pageName.".php";
+    require VIEWS.DS."components".DS."footer.php";
+}
+
+
+function random_str($length = 30){
+    $str = "qwertyuiopasdfghjklzxcvbnm1234567890";
+    $result = "";
+    for($i = 0; $i < $length; $i++){
+        $result .= $str[rand(0, strlen($str) - 1)];
+    }
+    return $result;
+}
+
+function json_response($data) {
+    header("Content-Type: application/json");
+    echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    exit;
 }
