@@ -2,13 +2,21 @@
 
 use Engine\Router;
 
-Router::get("/", "MainController@indexPage");
-
 /**
  * 사이트 관리
  */
-Router::get("/admin/teaser_builder.html", "MainController@builderPage", "user");
-Router::post("/admin/set-site", "MainController@setSite", "user");;
+Router::get("/admin/teaser_builder.html", "BuilderController@builderPage", "user");
+Router::post("/admin/set-site", "BuilderController@setSite", "user");
+Router::post("/admin/set-image", "BuilderController@setImage", "user");
+Router::post("/admin/get-image-count", "BuilderController@getImageCount", "user");
+
+/**
+ * 통계 관리
+ */
+
+Router::get("/admin/table-stats/{code}", "StatsController@tablePage", "user");
+Router::get("/admin/graph-stats/{code}", "StatsController@graphPage", "user");
+
 
 /**
  * 회원관리
@@ -20,5 +28,10 @@ Router::get("/sign-up", "UserController@joinPage", "guest");
 Router::post("/sign-up", "UserController@join", "guest");
 
 Router::get("/logout", "UserController@logout", "user");
+
+/* 사이트
+*/
+Router::get("/", "MainController@indexPage");
+RouteR::get("/{code}", "MainController@teaserPage");
 
 Router::connect();

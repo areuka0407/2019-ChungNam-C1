@@ -5,7 +5,7 @@ session_start();
 define("DS", DIRECTORY_SEPARATOR);
 define("ROOT", dirname(__DIR__));
 define("SRC", ROOT.DS."src");
-define("PUBLIC", ROOT.DS."public");
+define("PUB", ROOT.DS."public");
 define("VIEWS", SRC.DS."Views");
 
 

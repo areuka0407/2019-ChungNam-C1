@@ -191,30 +191,87 @@ class Database {
                                     </div>
                                 </div>`;
 
+        
+        let imageCount = await new Promise(res => {
+            let form = new FormData();
+            form.append("path", imagePath.substr(0, imagePath.lastIndexOf("/")));
+            fetch(new Request("/admin/get-image-count", {method: "post", body: form}))
+            .then(v => v.text())
+            .then(v => {
+                res(parseInt(v));
+            });
+        });
         let $row =  this.$body.querySelector(".row");
-        for(let i = 1; i <= parseInt(imageLimit); i++){
+        for(let i = 1; i <= imageCount; i++){
             let url = imagePath.replace("$", i);
             $row.append(`<div class="image m-3"><img src="${url}" title="이미지" alt="이미지"></div>`.toElem());
         }
-        this.$body.querySelectorAll(".row > .image").forEach((x, i, list) => {
-            x.addEventListener("click", () => this.e_imageActive(x, i, list, multiple));
+
+        $(this.$body).on("click", ".image", e => {
+            this.e_imageActive(e.currentTarget, multiple);
         });
 
-        this.$body.querySelector("#i_image").addEventListener("change", e => {
+        this.$body.querySelector("#i_image").addEventListener("input", e => {
             let file = e.currentTarget.files.length > 0 && e.currentTarget.files[0];
             if(file){
-                let reader = new FileReader();
-                reader.onload = () =>{ 
-                    let $imgList = this.$body.querySelectorAll(".row .image");
-                    let $image = `<div class="image">
-                                    <img src="${reader.result}" title="logo" alt="logo" width="100">
-                                </div>`.toElem();
-                    $image.addEventListener("click", () => {
-                        this.e_imageActive($image, $imgList.length, $imgList, multiple);
-                    });
-                    $row.append($image);
+                let error = null;
+                if(file.size > 1024 * 1024 * 2) error = "2MB가 넘는 이미지는 업로드할 수 없습니다.";
+                if(!["jpg", "png"].includes(file.name.toLowerCase().substr(file.name.lastIndexOf(".") + 1))) error = "[JPG/PNG] 확장자 파일만 업로드 할 수 있습니다.";
+                
+                if(error){
+                    e.preventDefault();
+                    alert(error);
+                    return;
                 }
-                reader.readAsDataURL(file);
+
+                // 이미지 리사이징
+                let parseURL = new Promise(res =>{ 
+                    let reader = new FileReader();
+                    reader.onload = () => res(reader.result);
+                    reader.readAsDataURL(file);
+                });
+                parseURL.then(url => new Promise(res => {
+                    let $image = new Image();
+                    $image.src = url;
+                    $image.onload = () => res($image);
+                })).then($img => {
+                    let {width, height} = $img;
+                    let change_w, change_h;
+                    
+                    if(width > height){
+                        change_w = 250;
+                        change_h = 250 * height / width;
+                    }
+                    else {
+                        change_h = 250;
+                        change_w = 250 * width / height;
+                    }
+
+                    let $canvas = document.createElement("canvas");
+                    $canvas.width = change_w;
+                    $canvas.height = change_h;
+
+                    let ctx = $canvas.getContext("2d");
+                    ctx.drawImage($img, 0, 0, width, height, 0, 0, change_w, change_h);
+
+                    let path = imagePath;
+                    let form = new FormData();
+                    form.append("url", $canvas.toDataURL());
+                    form.append("path", path);
+                    
+                    // 이미지 추가
+                    fetch(new Request("/admin/set-image", {method: "post", body: form}))
+                    .then(v => v.json())
+                    .then(v => {
+                        v.message && alert(v.message);
+
+                        if(v.filename){
+                            let list = $row.querySelectorAll(".image");
+                            let elem = `<div class="image m-3"><img src="${v.filename}" alt="업로드된 이미지"></div>`.toElem();
+                            $row.append(elem);
+                        }
+                    });
+                });
             }
         });
     
@@ -399,16 +456,17 @@ class Database {
      }
      
      // 이미지를 클릭할 때 Active 토글을 거는 함수
-     e_imageActive(target, i, list, multiple = false) {
+     e_imageActive(target, multiple = false) {
+        let list = Array.from(this.$body.querySelectorAll(".image"));
         if(multiple == false){
-            Array.from(list).filter(x => x !== target).forEach(elem => {
+            list.filter(x => x !== target).forEach(elem => {
                 elem.classList.remove("active");
             });
         }
         target.classList.toggle("active");
 
 
-        let selected = Array.from(this.$body.querySelectorAll(".row .image.active > img"));
+        let selected = list.filter(x => x.classList.contains("active")).map(x => x.firstElementChild);
 
         this.$root.innerHTML = selected.map(sel => {
             return this.sample.replace(/(<img[^>]*src=")([^'"]+)("[^>]*>)/g, `$1${sel.src}$3`);
@@ -464,6 +522,11 @@ class Database {
                                 <td colspan="2">${x.description}</td>
                                 <td>${x.keyword}</td>
                                 <td><button class="btn mr-4 p-1">페이지수정</button></td>`;
+
+            // 더블 클릭시 해당 페이지로 이동
+            elem.addEventListener("dblclick", e => {
+                location.assign("/" + x.code); 
+            });
 
             // 미리보기 활성화
             elem.addEventListener("click", e => {
@@ -699,6 +762,8 @@ class App {
             .then(x => x.json())
             .then(x => {
                 console.log(x);
+                x.message && alert(x.message);
+                x.action && eval(x.action);
             });
         });
     }

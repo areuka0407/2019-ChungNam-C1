@@ -37,7 +37,7 @@ class UserController {
         if(DB::fetch("SELECT * FROM users WHERE identity = ?", [$identity])) back("동일한 아이디를 가진 회원이 이미 존재합니다.");
         
         $password = hash("sha256", $password);
-        DB::query("INSERT INTO users(identity, password, email, name) VALUES (:identity, :password, :email, :name)", $_POST);
+        DB::query("INSERT INTO users(identity, password, email, name) VALUES (?, ?, ?, ?)", [$identity, $password, $email, $name]);
 
         redirect("/admin", "회원가입 되었습니다.");
     }

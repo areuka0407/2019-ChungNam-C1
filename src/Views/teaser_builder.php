@@ -1,7 +1,7 @@
 <!-- 페이지 관리 -->
 <div id="left-top">
     <button id="open-manage" class="toggle-active" data-target="#page-manage">페이지 관리</button>
-    <button id="save-site">사이트 저장</button>
+    <button id="save-site">페이지 적용하기</button>
     <a href="/logout">로그아웃</a>
     <div id="page-manage">
         <h3 class="title">페이지 관리</h3>

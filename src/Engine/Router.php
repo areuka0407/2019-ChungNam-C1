@@ -23,6 +23,7 @@ class Router {
 
             // URL 일치
             if(preg_match("/^$regex$/", $currentURL, $matches)){
+                unset($matches[0]);
                 if($permission === "user" && !user()) redirect("/admin", "로그인 후 이용하실 수 있습니다.");
                 else if($permission === "guest" && user()) back("로그인 후엔 이욯하실 수 없습니다.");
 
