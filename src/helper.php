@@ -78,7 +78,8 @@ function browserInfo(){
     $browser = $o_system = $version = "Unknown";
     
     // 운영체제 확인
-    if(preg_match("/linux/i", $u_agent)) $o_system = "Linux";
+    if(preg_match("/Android/i", $u_agent)) $o_system = "Android";
+    else if(preg_match("/linux/i", $u_agent)) $o_system = "Linux";
     else if(preg_match("/macintosh|mac os x/i", $u_agent)) $o_system = "iOS";
     else if(preg_match("/windows|win32/i", $u_agent)) $o_system = "Windows";
 
@@ -117,7 +118,17 @@ function isMobile(){
     $phoneArr = ["iphone","lgtelecom","skt","mobile","samsung","nokia","blackberry","android","android","sony","phone"];
     $result = false;
     foreach($phoneArr as $ph) {
-        if(preg_match("/{$ph}/", $_SERVER['HTTP_USER_AGENT'])) $result = true;
+        if(preg_match("/{$ph}/i", $_SERVER['HTTP_USER_AGENT'])) $result = true;
     }
     return $result;
+}
+
+
+function random_color($image, $min = 150, $max = 255){
+    $result = [rand($min + 50, $max)];
+    for($i = 1; $i < 3; $i++){
+        $result[] = rand($min - 20, $result[$i - 1] - 20);
+    }
+    shuffle($result);
+    return imagecolorallocate($image, ...$result);
 }

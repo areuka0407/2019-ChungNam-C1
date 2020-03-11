@@ -15,7 +15,8 @@ Router::post("/admin/get-image-count", "BuilderController@getImageCount", "user"
  */
 
 Router::get("/admin/site-stats/{type}/{code}", "StatsController@statsPage", "user");
-Router::get("/admin/stats-graph/{type}/{code}", "StatsController@graphImage", "user");
+Router::get("/admin/bar-graph/{type}/{code}", "StatsController@graphBar", "user");
+Router::get("/admin/pie-graph/{type}/{code}", "StatsController@graphPie", "user");
 
 
 /**

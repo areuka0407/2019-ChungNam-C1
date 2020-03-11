@@ -14,8 +14,10 @@ class MainController {
         $site == false && back("해당 사이트는 존재하지 않습니다.");
 
         // 사이트 접근 기록 추가
+        
         $info = browserInfo();
         $isMobile = isMobile();
+        
         $input = [
             ":code" => $code,
             ":address" => $_SERVER['REMOTE_ADDR'],
@@ -25,7 +27,6 @@ class MainController {
             ":device" => $isMobile ? "Mobile" : "PC"
         ];
         DB::query("INSERT INTO accesses(code, address, referer, os, browser, device) VALUES (:code, :address, :referer, :os, :browser, :device)", $input);
-        
         
         teaserView($site);
     }
