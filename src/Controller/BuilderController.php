@@ -14,7 +14,7 @@ class BuilderController {
 
         $overlap =  DB::fetch("SELECT * FROM sites WHERE code = ?", [$code]);
         if($overlap) {
-            DB::query("UPDATE stes SET name = ?, title = ?, description = ?, keyword = ?, contents = ?", [$name, $title, $description, $keyword, $contents]);
+            DB::query("UPDATE sites SET name = ?, title = ?, description = ?, keyword = ?, contents = ?", [$name, $title, $description, $keyword, $contents]);
             json_response(["message" => "해당 사이트의 정보가 업데이트 되었습니다."]);
         }
         else {

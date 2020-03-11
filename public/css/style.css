@@ -12,6 +12,12 @@
 :lang(en) { font-family: "Segoe UI", sans-serif; }
 :lang(ko) { font-family: "나눔스퀘어", sans-serif; }
 
+.d-block { display: block!important; }
+.d-inline { display: inline!important; }
+.d-flex { display: flex!important; }
+.d-inline-block { display: inline-block!important; }
+
+
 .border-0 { border: 0!important; }
 .bg-darkblue { background-color: #434a77!important; }
 .bg-white { background-color: #fff!important; color: #444!important; }
@@ -19,7 +25,7 @@
 
 .cursor, a, button, label { cursor: pointer; user-select: none; }
 a, a:hover { color: inherit; text-decoration: none; }
-
+p { word-break: keep-all; }
 .wrap { position: relative; transition: transform 0.4s; max-width: 1960px; min-height: 100vh;  margin: 0 auto; padding: 0 48px; background-color: #f7f7f7; background-clip: content-box; }
 .container { max-width: 1140px; margin: 0 auto; padding: 0 10px; }
 .hidden { visibility: hidden; }
@@ -1195,20 +1201,23 @@ footer .copyright { color: #bbb; }
 /* 티저 페이지 접속 통계
 */
 
-#stats .nav { position: fixed; left: 0;top: 0; width: 350px; height: 100vh; box-shadow: 0 1px 3px 1px #00000020; padding: 50px 20px; }
-#stats .search { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 100%; padding: 20px; 
-                display: flex; flex-direction: column; align-items: center; }
-#stats .search .title { margin-bottom: 1em; font-size: 1.5em; font-weight: 100; color: #324197; }
+#stats .nav { position: fixed; left: 0;top: 0; width: 350px; height: 100vh; box-shadow: 0 1px 3px 1px #00000020; padding: 30px 20px; overflow-x: hidden; overflow-y: auto; }
+#stats .title { margin-bottom: 1em; font-size: 1.5em; font-weight: 100; color: #324197; }
+#stats .nav::-webkit-scrollbar { appearance: none; width: 5px; background-color: #eee; }
+#stats .nav::-webkit-scrollbar-thumb { appearance: none; background-color: #a5a5a5; }
+
+#stats .profile { padding: 20px 10px; font-size: 14px; color: #333; text-align: center; margin-bottom: 30px; }
+
+#stats .search {  padding: 20px; display: flex; flex-direction: column; align-items: center; }
 #stats .search .accent { display: inline-block; text-align: center; line-height: 30px; width: 30px; height: 30px; border: 1px solid #324197aa; 
                          color: #324197aa; border-radius: 50%; font-weight: bold; }
 #stats .search .form-group { width: 100%; }
 #stats label { color: #324197; }
 #stats .btn { border-color: #32419755; }
 
-#stats .nav-list { position: absolute; right: 0; top: 50px; display: flex; flex-direction: column; }
-#stats .nav-item { display: inline-block; width: 100px; text-align: center; height: 35px; line-height: 35px; background-color: #d6afb9; 
-                    margin-bottom: 10px; color: #fff; box-shadow: inset 0 1px 5px 1px #0000001e; transform: translateX(20px); transition: 0.3s; }
-#stats .nav-item.active, #stats .nav-item:hover { background-color: #be5570; box-shadow: none; transform:  translateX(0); }
+#stats .nav-list { display: flex; flex-direction: column; font-size: 0.9em; color: #30365c; }
+#stats .nav-item { width: 100%; padding-left: 30px; height: 50px; line-height: 50px; border-top: 1px solid #ddd; padding-left: 0.2s; border-left: 0 solid #5e6279; }
+#stats .nav-item.active, #stats .nav-item:hover { border-left-width: 8px; transition: 0.3s; }
 
 #stats .s-wrap {
     background-color: #fff;
@@ -1226,8 +1235,6 @@ footer .copyright { color: #bbb; }
 #stats .sub-title { color: #5e6279; }
 #stats table { table-layout: auto; text-align: center; }
 #stats .all-table { max-height: 160px; overflow-x: hidden; overflow-y: auto; }
-#stats .all-table::-webkit-scrollbar { appearance: none; width: 5px; background-color: #eee; }
-#stats .all-table::-webkit-scrollbar-thumb { appearance: none; background-color: #a5a5a5; }
 
 #stats hr { border: none; border-bottom: 1px solid #ddd; }
 #stats table:not(.all-table) * { border-color: #5e6279!important; }
@@ -1239,4 +1246,10 @@ footer .copyright { color: #bbb; }
     background-color: #ddd;
     background-position: center center;
     background-size: contain;
+}
+
+#stats table tr.active {
+    /* background-color: #5e6279; */
+    border-top: solid 2px #5e6279;
+    /* color: #fff; */
 }

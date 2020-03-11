@@ -761,7 +761,6 @@ class App {
             fetch(new Request("/admin/set-site", {method: "post", body: form}))
             .then(x => x.json())
             .then(x => {
-                console.log(x);
                 x.message && alert(x.message);
                 x.action && eval(x.action);
             });

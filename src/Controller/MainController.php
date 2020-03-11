@@ -19,7 +19,7 @@ class MainController {
         $input = [
             ":code" => $code,
             ":address" => $_SERVER['REMOTE_ADDR'],
-            ":referer" => preg_replace("/(https?:\/\/[^\/]+).*/", "$1", (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "")),
+            ":referer" => preg_replace("/(https?:\/\/[^\/]+).*/", "$1", (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "Unknown")),
             ":os" => $info->os,
             ":browser" => $info->browser . " " . $info->version,
             ":device" => $isMobile ? "Mobile" : "PC"

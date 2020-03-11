@@ -1,12 +1,20 @@
 <div id="stats">
     <div class="nav">
-        <!-- 네비게이션 -->
-        <div class="nav-list" lang="en">
-            <a href="/admin/site-stats/<?=$site->code?>" class="nav-item active">유입경로 별</a>
-            <a href="/admin/site-stats/<?=$site->code?>" class="nav-item">운영체제 별</a>
-            <a href="/admin/site-stats/<?=$site->code?>" class="nav-item">브라우저 별</a>
-            <a href="/admin/site-stats/<?=$site->code?>" class="nav-item">디바이스 별</a>
+        <!-- 프로필 창 -->
+        <div class="profile">
+            <div>
+                <h2><a href="/<?=$site->code?>" class="name"><?=$site->name?></a></h2>
+                <small class="d-block text-muted mt-1"><?=$site->code?></small>
+            </div>
+            <div class="mt-3">
+                <p><?=$site->description?></p>
+            </div>
+            <div class="mt-5">
+                <a href="/<?=$site->code?>" class="btn">사이트 바로가기</a>
+                <a href="/admin/teaser_builder.html?code=<?=$site->code?>" class="btn">수정하기</a>
+            </div>
         </div>
+        <hr class="my-2">
         <!-- 검색창 -->
         <form method="get" autocomplete="off" class="search">
             <div class="title" lang="en">Search Range</div>
@@ -23,17 +31,26 @@
                 <button id="btn-search" class="btn w-100 mt-3">검색</button>
             </div>
         </form>
+        <!-- 네비게이션 -->
+        <hr class="my-3">
+        <div class="nav-list" lang="en">
+            <div class="title text-center" lang="en">Search Type</div>
+            <a href="/admin/site-stats/referer/<?=$site->code?>" class="nav-item<?= $typeName === "유입경로" ? " active" : "" ?>">유입경로 별</a>
+            <a href="/admin/site-stats/os/<?=$site->code?>" class="nav-item<?= $typeName === "운영체제" ? " active" : "" ?>">운영체제 별</a>
+            <a href="/admin/site-stats/browser/<?=$site->code?>" class="nav-item<?= $typeName === "브라우저" ? " active" : "" ?>">브라우저 별</a>
+            <a href="/admin/site-stats/device/<?=$site->code?>" class="nav-item<?= $typeName === "디바이스" ? " active" : "" ?>">디바이스 별</a>
+        </div>
     </div>
     <div class="s-wrap">
         <div class="row">
             <div class="w-50 px-2">
-                <h3 class="title mb-2">유입경로별 접속자 수</h3>
+                <h3 class="title mb-2"><?=$typeName?>별 접속자 수</h3>
                 <div class="graph">
 
                 </div>
             </div>
             <div class="w-50 px-2">
-                <h3 class="title mb-2">유입경로별 비율</h3>
+                <h3 class="title mb-2"><?=$typeName?>별 비율</h3>
                 <div class="graph">
 
                 </div>
@@ -45,31 +62,21 @@
                 <table class="mt-2">
                     <thead>
                         <tr>
-                            <th>유입 경로</th>
+                            <th><?=$typeName?></th>
                             <th>접속자 수</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>https://www.naver.com</td>
-                            <td>515,353</td>
-                        </tr>
-                        <tr>
-                            <td>https://www.youtube.com</td>
-                            <td>512,125</td>
-                        </tr>
-                        <tr>
-                            <td>https://www.daum.net</td>
-                            <td>231,244</td>
-                        </tr>
-                        <tr>
-                            <td>기타</td>
-                            <td>125,351</td>
-                        </tr>
-                        <tr>
+                        <?php foreach($info->each as $item): ?>
+                            <tr>
+                                <td><?=$item[0]?></td>
+                                <td><?=$item[1]?></td>
+                            </tr>
+                        <?php endforeach;?>
+                        <tr class="active">
                             <td>합계</td>
-                            <td>1,384,073</td>
-                        </tr>   
+                            <td><?=$info->all?></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -77,27 +84,17 @@
             <table class="mt-2">
                     <thead>
                         <tr>
-                            <th>유입 경로</th>
+                            <th><?=$typeName?></th>
                             <th>접속자 비율</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>https://www.naver.com</td>
-                            <td>37.23%</td>
-                        </tr>
-                        <tr>
-                            <td>https://www.youtube.com</td>
-                            <td>37.00%</td>
-                        </tr>
-                        <tr>
-                            <td>https://www.daum.net</td>
-                            <td>16.70%</td>
-                        </tr>
-                        <tr>
-                            <td>기타</td>
-                            <td>9.05%</td>
-                        </tr>
+                        <?php foreach($info->percent as $item):?>
+                            <tr>
+                                <td><?=$item[0]?></td>
+                                <td><?=$item[1]?>%</td>
+                            </tr>
+                        <?php endforeach;?>
                     </tbody>
                 </table>
             </div>

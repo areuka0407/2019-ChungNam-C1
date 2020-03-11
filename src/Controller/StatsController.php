@@ -14,9 +14,12 @@ class StatsController {
             default: $typeName = "디바이스"; $type = "device";
         }
         $viewData['typeName'] = $typeName;
+
+        $viewData['site'] = DB::fetch("SELECT * FROM sites WHERE code = ?", [$code]);
+        if(!$viewData['site']) back("해당 사이트가 존재하지 않습니다.");
+
         $viewData['info'] = $this->getInfo($type, $code);
         $viewData['queryString'] = $_SERVER['QUERY_STRING'];
-        dd($viewData);
         view("stats", $viewData);
     }
     
@@ -40,11 +43,13 @@ class StatsController {
 
         $result['all'] = DB::fetch("SELECT COUNT(*) AS cnt FROM accesses {$where}", $params)->cnt;
         $result['each'] = [];
+        $result['percent'] = [];
         $countEach = DB::fetchAll("SELECT {$type} AS col, COUNT(*) AS cnt FROM accesses {$where} GROUP BY {$type}", $params);
         foreach($countEach as $item){
             $result['each'][] = [$item->col, $item->cnt];
+            $result['percent'][] = [$item->col, number_format($item->cnt * 100 / $result['all'], 2)];
         }
         
-        return $result;
+        return (object)$result;
     }
 }
