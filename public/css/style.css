@@ -1233,7 +1233,10 @@ footer .copyright { color: #bbb; }
 #stats table:not(.all-table) * { border-color: #5e6279!important; }
 #stats table:not(.all-table) th { color: rgb(59, 61, 73); }
 
-#stats .col {
-    width: calc(50% - 40px);
-    margin: 20px;
+#stats .graph {
+    width: 100%;
+    height: 400px;
+    background-color: #ddd;
+    background-position: center center;
+    background-size: contain;
 }

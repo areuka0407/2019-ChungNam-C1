@@ -14,8 +14,7 @@ Router::post("/admin/get-image-count", "BuilderController@getImageCount", "user"
  * 통계 관리
  */
 
-Router::get("/admin/table-stats/{code}", "StatsController@tablePage", "user");
-Router::get("/admin/graph-stats/{code}", "StatsController@graphPage", "user");
+Router::get("/admin/site-stats/{type}/{code}", "StatsController@statsPage", "user");
 
 
 /**

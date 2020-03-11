@@ -13,11 +13,19 @@ class MainController {
         $site = DB::fetch("SELECT * FROM sites WHERE code = ?", [$code]);
         $site == false && back("해당 사이트는 존재하지 않습니다.");
 
-        $address = $_SERVER['REMOTE_ADDR'];
-        $referer = preg_replace("/(https?:\/\/[^\/]+).*/", "$1", (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ""));
-
-        dd($_SERVER['HTTP_USER_AGENT']);
-        dd($_SERVER);
+        // 사이트 접근 기록 추가
+        $info = browserInfo();
+        $isMobile = isMobile();
+        $input = [
+            ":code" => $code,
+            ":address" => $_SERVER['REMOTE_ADDR'],
+            ":referer" => preg_replace("/(https?:\/\/[^\/]+).*/", "$1", (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "")),
+            ":os" => $info->os,
+            ":browser" => $info->browser . " " . $info->version,
+            ":device" => $isMobile ? "Mobile" : "PC"
+        ];
+        DB::query("INSERT INTO accesses(code, address, referer, os, browser, device) VALUES (:code, :address, :referer, :os, :browser, :device)", $input);
+        
         
         teaserView($site);
     }

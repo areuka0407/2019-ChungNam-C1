@@ -13,10 +13,15 @@ class BuilderController {
         extract($_POST);
 
         $overlap =  DB::fetch("SELECT * FROM sites WHERE code = ?", [$code]);
-        if($overlap) json_response(["message" => "해당 코드의 사이트가 이미 존재합니다."]);
-    
-        DB::query("INSERT INTO sites(code, name, title, description, keyword, contents) VALUES (?, ?, ?, ?, ?, ?)", [$code, $name, $title, $description, $keyword, $contents]);
-        json_response(["message" => "현재 페이지가 적용되었습니다.", "action" => "location.assign('/{$code}')"]);
+        if($overlap) {
+            DB::query("UPDATE stes SET name = ?, title = ?, description = ?, keyword = ?, contents = ?", [$name, $title, $description, $keyword, $contents]);
+            json_response(["message" => "해당 사이트의 정보가 업데이트 되었습니다."]);
+        }
+        else {
+            DB::query("INSERT INTO sites(code, name, title, description, keyword, contents) VALUES (?, ?, ?, ?, ?, ?)", [$code, $name, $title, $description, $keyword, $contents]);
+            json_response(["message" => "현재 페이지가 적용되었습니다.", "action" => "location.assign('/{$code}')"]);
+        }
+
     }
 
     function setImage(){
