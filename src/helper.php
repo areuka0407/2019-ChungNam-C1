@@ -70,7 +70,9 @@ function json_response($data) {
     exit;
 }
 
-
+/**
+ * 브라우저 정보를 가져오는 함수
+ */
 function browserInfo(){
     $u_agent = $_SERVER['HTTP_USER_AGENT'];
     $browser = $o_system = $version = "Unknown";
@@ -84,6 +86,7 @@ function browserInfo(){
     if(preg_match("/MSIE/i", $u_agent) && !preg_match("/Opera/i", $u_agent)) { $browser = "IE"; $base = "MSIE"; }
     else if(preg_match("/Firefox/i", $u_agent)){ $browser = "Firefox"; $base = "Firefox"; }
     else if(preg_match("/OPR/i", $u_agent)){ $browser = "Opera"; $base = "Opera"; }
+    else if(preg_match("/Whale/i", $u_agent)){ $browser = "Whale"; $base = "Whale"; }
     else if(preg_match("/Chrome/i", $u_agent) && !preg_match("/Edge/i", $u_agent)){ $browser = "Chrome"; $base = "Chrome"; }
     else if(preg_match("/Safari/i", $u_agent) && !preg_match("/Edge/i", $u_agent)){ $browser = "Safari"; $base = "Safari"; }
     else if(preg_match("/Netscape/i", $u_agent)){ $browser = "Netscape"; $base = "Netscape"; }
@@ -108,4 +111,13 @@ function browserInfo(){
     if (!$version) $version = "Unknown";
 
     return (object)["user_agent" => $u_agent, "browser" => $browser, "version" => $version, "os" => $o_system];
+}
+
+function isMobile(){
+    $phoneArr = ["iphone","lgtelecom","skt","mobile","samsung","nokia","blackberry","android","android","sony","phone"];
+    $result = false;
+    foreach($phoneArr as $ph) {
+        if(preg_match("/{$ph}/", $_SERVER['HTTP_USER_AGENT'])) $result = true;
+    }
+    return $result;
 }
