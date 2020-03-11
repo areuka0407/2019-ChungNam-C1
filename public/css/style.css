@@ -1201,7 +1201,7 @@ footer .copyright { color: #bbb; }
 /* 티저 페이지 접속 통계
 */
 
-#stats .nav { position: fixed; left: 0;top: 0; width: 350px; height: 100vh; box-shadow: 0 1px 3px 1px #00000020; padding: 30px 20px; overflow-x: hidden; overflow-y: auto; }
+#stats .nav { position: fixed; left: 0;top: 0; width: 350px; height: 100vh; box-shadow: 0 1px 3px 1px #00000020; padding: 30px 0; overflow-x: hidden; overflow-y: auto; }
 #stats .title { margin-bottom: 1em; font-size: 1.5em; font-weight: 100; color: #324197; }
 #stats .nav::-webkit-scrollbar { appearance: none; width: 5px; background-color: #eee; }
 #stats .nav::-webkit-scrollbar-thumb { appearance: none; background-color: #a5a5a5; }
@@ -1216,8 +1216,8 @@ footer .copyright { color: #bbb; }
 #stats .btn { border-color: #32419755; }
 
 #stats .nav-list { display: flex; flex-direction: column; font-size: 0.9em; color: #30365c; }
-#stats .nav-item { width: 100%; padding-left: 30px; height: 50px; line-height: 50px; border-top: 1px solid #ddd; padding-left: 0.2s; border-left: 0 solid #5e6279; }
-#stats .nav-item.active, #stats .nav-item:hover { border-left-width: 8px; transition: 0.3s; }
+#stats .nav-item { width: 100%; padding-left: 30px; height: 50px; line-height: 50px; border-top: 1px solid #ddd; }
+#stats .nav-item.active, #stats .nav-item:hover { padding-left: 40px; transition: 0.3s; background-color: #f8f8f8; }
 
 #stats .s-wrap {
     background-color: #fff;
@@ -1236,7 +1236,7 @@ footer .copyright { color: #bbb; }
 #stats table { table-layout: auto; text-align: center; }
 #stats .all-table { max-height: 160px; overflow-x: hidden; overflow-y: auto; }
 
-#stats hr { border: none; border-bottom: 1px solid #ddd; }
+#stats hr { border: none; border-bottom: 1px solid #ddd; margin: 0 10px; }
 #stats table:not(.all-table) * { border-color: #5e6279!important; }
 #stats table:not(.all-table) th { color: rgb(59, 61, 73); }
 

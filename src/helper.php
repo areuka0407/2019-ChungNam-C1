@@ -79,7 +79,7 @@ function browserInfo(){
     
     // 운영체제 확인
     if(preg_match("/linux/i", $u_agent)) $o_system = "Linux";
-    else if(preg_match("/macintosh|mac os x/i", $u_agent)) $o_system = "Mac";
+    else if(preg_match("/macintosh|mac os x/i", $u_agent)) $o_system = "iOS";
     else if(preg_match("/windows|win32/i", $u_agent)) $o_system = "Windows";
 
     // 브라우저 확인

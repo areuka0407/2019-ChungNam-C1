@@ -22,6 +22,15 @@ class StatsController {
         $viewData['queryString'] = $_SERVER['QUERY_STRING'];
         view("stats", $viewData);
     }
+
+    /**
+     * 통계 데이터 그래프 띄우기
+     */
+    function graphImage($type, $code){
+        $info = $this->getInfo($type, $code);
+    
+        
+    }
     
 
     /**
@@ -44,7 +53,34 @@ class StatsController {
         $result['all'] = DB::fetch("SELECT COUNT(*) AS cnt FROM accesses {$where}", $params)->cnt;
         $result['each'] = [];
         $result['percent'] = [];
-        $countEach = DB::fetchAll("SELECT {$type} AS col, COUNT(*) AS cnt FROM accesses {$where} GROUP BY {$type}", $params);
+        $countEach = DB::fetchAll("SELECT {$type} AS col, COUNT(*) AS cnt FROM accesses {$where} GROUP BY {$type} ORDER BY cnt DESC", $params);
+
+        // 운영체제일 경우 Window, Linux, iOS, 기타로 분류해야함
+        if($type === "os") {
+            $required = ["Windows", "Linux", "iOS"];
+            $_required = ["Windows", "Linux", "iOS"];
+            foreach($countEach as $item){
+                $key = array_search($item->col, $required);
+                if(!in_array($item->col, $_required)) $item->col = "기타";  // 운영체제 3대장 외엔 기타로 처리
+                else array_splice($required, $key, 1); // 값이 존재하면, 필요값에서 삭제
+            }
+            // 필요값이 남아있으면 추가 => 이 필요값은 값이 없다는 것
+            foreach($required as $item){
+                $countEach[] = (object)["col" => $item, "cnt" => 0];
+            }
+        }
+
+        // 유입경로일 경우 상위 5개까지만 저장하고 나머지는 기타로 처리해야함.
+        if($type === "referer"){
+            // dd($countEach);
+            $_other = array_slice($countEach, 5);
+            $countEach = array_slice($countEach, 0, 5);
+            $other = (object)["col" => "기타", "cnt" => 0];
+            foreach($_other as $item) $other->cnt += $item->cnt;
+            $countEach[] = $other;
+        }
+
+        // 퍼센트 비율 계산 / 값 정리
         foreach($countEach as $item){
             $result['each'][] = [$item->col, $item->cnt];
             $result['percent'][] = [$item->col, number_format($item->cnt * 100 / $result['all'], 2)];
