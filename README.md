@@ -67,3 +67,19 @@
         }    
 
     HTTP의 User-Agent를 가져올 수 있다면 위 코드를 응용해서 완성할 수 있을 것 같다.
+
+
+3. PHP 에서 이미지의 투명도를 유지하고 PNG 로 저장하는 방법
+        
+    지금까지는 왜 PNG에 'imagecolorallocatealpha'를 사용해도 투명도가 유지되지 않는 지 모른채 넘어갔는데, 이번 기회에 확실히 하고 가자고 생각한다.
+
+        $image = imagecreatetruecolor(500, 500);
+        imagesavealpha($image, true); // 이미지의 투명도를 유지할 지의 여부
+        $background = imagecolorallocatealpha($image, 255, 255, 255, 127); // 투명한 배경색
+        imagefill($image, 0, 0, $background);
+
+    위와 같이 사용하면 투명한 배경을 가진 이미지를 만들 수 있다. 기존에 착각했던 점이 두 가지가 있었는데...
+    1. 'imagesavealpha'를 사용하지 않으면 PNG 파일이라도 투명도가 유지되지 않는다는 점.
+    2. imagecolorallocatealpha의 5번째 인자인 'alpha' 값은 0~127 사이의 투명도 값이 들어가야 하는데, 이는 '불투명도'가 아니라 '투명도' 이기 때문에 값이 커질 수록 투명해진다는 점.
+
+    두번째 이유가 가장 어이없다... 다음부턴 주의하도록 하자.
