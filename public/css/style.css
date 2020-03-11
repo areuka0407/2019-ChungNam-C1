@@ -1203,8 +1203,7 @@ footer .copyright { color: #bbb; }
 
 #stats .nav { position: fixed; left: 0;top: 0; width: 350px; height: 100vh; box-shadow: 0 1px 3px 1px #00000020; padding: 30px 0; overflow-x: hidden; overflow-y: auto; }
 #stats .nav .title { margin-bottom: 1em; font-size: 1.5em; font-weight: 100; color: #324197; }
-#stats .nav::-webkit-scrollbar { appearance: none; width: 5px; background-color: #eee; }
-#stats .nav::-webkit-scrollbar-thumb { appearance: none; background-color: #a5a5a5; }
+#stats .nav::-webkit-scrollbar { display: none; }
 
 #stats .profile { padding: 20px 10px; font-size: 14px; color: #333; text-align: center; margin-bottom: 30px; }
 
@@ -1220,7 +1219,7 @@ footer .copyright { color: #bbb; }
 #stats .nav-item.active, #stats .nav-item:hover { padding-left: 40px; transition: 0.3s; background-color: #f8f8f8; }
 
 #stats .s-wrap {
-    background-color: #eee;
+    background-color: #fff;
     box-shadow: 0 1px 3px 1px #00000020;
     position: relative;
     left: 350px;

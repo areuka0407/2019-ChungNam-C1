@@ -74,7 +74,7 @@
         <div class="row align-items-center mt-2">  
             <div class="w-50 px-2">
                 <h3 class="title mb-2"><?=$typeName?>별 비율</h3>
-                <img src="/admin/bar-graph/<?=$type?>/<?=$site->code?><?=$queryString?>" alt="접속자 수 그래프">
+                <img src="/admin/pie-graph/<?=$type?>/<?=$site->code?><?=$queryString?>" alt="접속자 수 그래프">
             </div>
             <div class="w-50 px-2">
             <table class="mt-2">

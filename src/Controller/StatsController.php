@@ -4,6 +4,8 @@ namespace Controller;
 use Engine\DB;
 
 class StatsController {
+    protected static $graphFontFile = PUB.DS."fonts".DS."NotoSansKR.otf";
+
     function statsPage($type, $code){
         // 타입 검사 및 이름 설정, 기본값: device
         switch($type){
@@ -64,7 +66,7 @@ class StatsController {
         $dataCnt = count($info->each);
         $barGap = ($width - ($barWidth * $dataCnt)) / ($dataCnt + 1);
 
-        $fontPath = PUB.DS."fonts".DS."NotoSansKR.otf";
+        $fontPath = self::$graphFontFile;
         $legendSize = 15;
         for($i = 0; $i < $dataCnt; $i++){
             // 데이터 그리기
@@ -99,14 +101,55 @@ class StatsController {
      * 원 그래프 띄우기
      */
     function graphPie($type, $code){
+        $test = "";
+
         $info = $this->getInfo($type, $code);
         $W = 400; $H = 450;
-        $textH = 200;
         $padding = 30;
-        $radius = ($H - $textH - $padding * 2) / 2;
+        $textH = 200 - $padding;
+        $radius = ($H - $textH) / 2 - $padding;
         $image = imagecreatetruecolor($W, $H);
 
+        imagesavealpha($image, true);
+        $palette = (object)[
+            "transparent" => imagecolorallocatealpha($image, 255, 255, 255, 127),
+            "black" => imagecolorallocate($image, 0, 0, 0),
+            "lightBlack" => imagecolorallocate($image, 60, 60, 60),
+            "lightGray" => imagecolorallocate($image, 240, 240, 240),
+        ];
+
+        imagefill($image, 0, 0, $palette->transparent);
         
+        
+        $t_angle = 0;
+        $circleX = $W / 2;
+        $circleY = $padding + $radius;
+        \imagefilledellipse($image, $circleX, $circleY, $radius * 2.35, $radius * 2.35, $palette->lightGray);
+
+        $dataCnt = count($info->percent);
+        $fontPath = self::$graphFontFile;
+        $legendSize = 15;
+        for($i = 0; $i < $dataCnt; $i ++){
+            // 원 그리기
+            $angle = 360 * $info->percent[$i][1] / 100;
+            $color = random_color($image);
+            imagefilledarc($image, $circleX, $circleY, $radius * 2, $radius * 2, -90 + $t_angle, -90 + $t_angle + $angle, $color, IMG_ARC_PIE);
+            $t_angle += $angle;
+    
+            // 범례 그리기
+            $legendX = $padding;
+            $legendY = $padding * 2 + $radius * 2 + $legendSize * 1.5 * $i;
+            imagefilledrectangle($image, $legendX, $legendY, $legendX + $legendSize, $legendY + $legendSize, $color);
+            imagettftext($image, 9, 0, $legendX + $legendSize * 1.5, $legendY + $legendSize * 0.8, $palette->lightBlack, $fontPath, $info->percent[$i][0]);
+        }
+        
+
+        if($test !== "") dd($test);
+        else {
+            header("Content-Type: image/png");
+            imagepng($image);
+            imagedestroy($image);
+        }
     }
     
 
