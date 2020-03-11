@@ -17,6 +17,9 @@
 .d-flex { display: flex!important; }
 .d-inline-block { display: inline-block!important; }
 
+input.custom-file { display: none; }
+label.custom-file { width: 100%; height: 50px; background-color: #2f3769aa; color: #fff; text-align: center; line-height: 50px; font-size: 0.95em; }
+label.custom-file.active { background-color: #2f3769; }
 
 .border-0 { border: 0!important; }
 .bg-darkblue { background-color: #434a77!important; }

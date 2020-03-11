@@ -18,10 +18,11 @@
         </div>
         <div class="form-group">
             <label for="invite-file">행사명</label>
-            <input type="file" id="invite-file" class="form-control" name="invite-file" required accept=".xlsx" required>
+            <input type="file" id="invite-file" class="custom-file" name="invite-file" required accept=".xlsx" required hidden>
+            <label for="invite-file" class="custom-file mt-1"></label>
         </div>
         <div class="form-group">
-            <button class="btn w-100 mt-2">회원가입</button>
+            <button class="btn w-100 mt-2">미리보기</button>
         </div>
     </form>
 </div>
