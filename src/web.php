@@ -18,6 +18,12 @@ Router::get("/admin/site-stats/{type}/{code}", "StatsController@statsPage", "use
 Router::get("/admin/bar-graph/{type}/{code}", "StatsController@graphBar", "user");
 Router::get("/admin/pie-graph/{type}/{code}", "StatsController@graphPie", "user");
 
+/**
+ * 초대장 관리
+ */
+Router::get("/admin/invite-manager", "InviteController@formPage", "user");
+Router::post("/admin/invite-preview-list", "InviteController@previewListPage", "user");
+Router::get("/admin/invite-preview", "InviteController@previewPage", "user");
 
 /**
  * 회원관리

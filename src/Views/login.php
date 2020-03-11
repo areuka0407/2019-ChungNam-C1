@@ -1,5 +1,5 @@
-<div class="user-container">
-    <div class="user-title">
+<div class="simple-container">
+    <div class="simple-title">
         <h1 lang="en">SIGN IN</h1>
         <small>로그인</small>
     </div>
@@ -13,7 +13,7 @@
             <input type="password" id="password" class="form-control" name="password" required> 
         </div>
         <div class="form-group">
-            <small class="text-muted">계정이 없으신가요? <a href="/sign-up">회원가입</a></small>
+            <small class="text-muted">계정이 없으신가요? <a href="/sign-up" class="btn p-1 ml-1">회원가입</a></small>
             <button class="btn w-100 mt-2">로그인</button>
         </div>
     </form>

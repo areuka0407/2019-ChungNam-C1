@@ -2,7 +2,8 @@
 <div id="left-top">
     <button id="open-manage" class="toggle-active" data-target="#page-manage">페이지 관리</button>
     <button id="save-site">페이지 적용하기</button>
-    <a href="/logout">로그아웃</a>
+    <a href="/admin/invite-manager">초대장 메일관리</a>
+    <a class="bg-red" href="/logout">로그아웃</a>
     <div id="page-manage">
         <h3 class="title">페이지 관리</h3>
         <div class="table mt-4 mb-4">

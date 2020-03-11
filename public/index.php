@@ -6,8 +6,8 @@ define("DS", DIRECTORY_SEPARATOR);
 define("ROOT", dirname(__DIR__));
 define("SRC", ROOT.DS."src");
 define("PUB", ROOT.DS."public");
+define("SAMPLE", ROOT.DS."sample");
 define("VIEWS", SRC.DS."Views");
-
 
 require SRC.DS."autoload.php";
 require SRC.DS."helper.php";

@@ -1,5 +1,5 @@
-<div class="user-container">
-    <div class="user-title">
+<div class="simple-container">
+    <div class="simple-title">
         <h1 lang="en">SIGN UP</h1>
         <small>회원가입</small>
     </div>
@@ -21,7 +21,7 @@
             <input type="email" id="email" class="form-control" name="email" required> 
         </div>
         <div class="form-group">
-            <small class="text-muted">계정이 이미 있으신가요? <a href="/admin">로그인</a></small>
+            <small class="text-muted">계정이 이미 있으신가요? <a href="/admin" class="btn ml-1 p-1">로그인</a></small>
             <button class="btn w-100 mt-2">회원가입</button>
         </div>
     </form>

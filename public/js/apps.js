@@ -314,7 +314,7 @@ class Database {
             $nav.innerHTML = "";
             $groups.forEach(([$input, $select]) => {
                 let name = $input.value;
-                let href = "/admin/teaser_builder.html"+ ($select.value ? "?code="+$select.value : "");
+                let href = ($select.value ? `/${$select.value}` : "#");
 
                 if(name && href){
                     $nav.innerHTML += `<div class="n-item"><a href="${href}">${name}</a></div>`;

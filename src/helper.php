@@ -132,3 +132,30 @@ function random_color($image, $min = 150, $max = 255){
     shuffle($result);
     return imagecolorallocate($image, ...$result);
 }
+
+
+function rmdirall($dir){
+    if(!is_dir($dir)) return;
+    $scan = scandir($dir);
+    foreach($scan as $item){
+        if($item == "." || $item == "..") continue;
+        $item = $dir . DS . $item;
+        if(is_file($item)) unlink($item);
+        else rmdirall($item);
+    }
+}
+
+function toQueryString($data){
+    $result = "?";
+    $arr = [];
+    foreach($data as $key => $item) $arr[] = "$key=$item";
+    return count($data) === 0 ? "" : $result . join("&", $arr);
+}
+
+function _get($required = []){
+    $result = [];
+    foreach($required as $item){
+        $result[$item] = isset($_GET[$item]) ? $_GET[$item] : "";
+    }
+    return $result;
+}
