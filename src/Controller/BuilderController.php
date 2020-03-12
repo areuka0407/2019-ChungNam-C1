@@ -24,11 +24,6 @@ class BuilderController {
 
     }
 
-    function getSites(){
-        $sites = DB::fetchAll("SELECT * FROM sites ORDER BY created_at DESC");
-        json_response($sites);
-    }
-
     function setImage(){
         isEmpty([], true);
         extract($_POST);
