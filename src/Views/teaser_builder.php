@@ -58,7 +58,7 @@
 </div>
 
 <!-- 페이지 제작 -->
-<button id="open-create" class="toggle-active" data-target="#page-create">페이지 제작</button>
+<button id="open-create" class="toggle-active" data-target="#page-create">레이아웃 추가</button>
 <div id="page-create">
     <div class="tool-list">
         <div class="tool">
