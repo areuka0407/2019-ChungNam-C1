@@ -132,8 +132,8 @@ class StatsController {
         for($i = 0; $i < $dataCnt; $i ++){
             // 원 그리기
             $angle = 360 * $info->percent[$i][1] / 100;
-            $color = random_color($image);
-            imagefilledarc($image, $circleX, $circleY, $radius * 2, $radius * 2, -90 + $t_angle, -90 + $t_angle + $angle, $color, IMG_ARC_PIE);
+            $color = random_color($image);            
+            $angle !== 0 && imagefilledarc($image, $circleX, $circleY, $radius * 2, $radius * 2, -90 + $t_angle, -90 + $t_angle + $angle, $color, IMG_ARC_PIE);
             $t_angle += $angle;
     
             // 범례 그리기

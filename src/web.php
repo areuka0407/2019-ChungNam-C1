@@ -7,8 +7,10 @@ use Engine\Router;
  */
 Router::get("/admin/teaser_builder.html", "BuilderController@builderPage", "user");
 Router::post("/admin/set-site", "BuilderController@setSite", "user");
+Router::post("/admin/get-sites", "BuilderController@getSites", "user");
 Router::post("/admin/set-image", "BuilderController@setImage", "user");
 Router::post("/admin/get-image-count", "BuilderController@getImageCount", "user");
+
 
 /**
  * 통계 관리
