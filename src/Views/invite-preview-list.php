@@ -21,7 +21,7 @@
                 <td><?=$td?></td>
                 <?php endforeach;?>
                 <td class="py-3">
-                    <a href="/admin/invite-preview<?=toQueryString(["name" => $tr[1], "email" => $tr[2], "festival" => $festival, "code" => $code])?>"  class="btn p-2">초대장미리보기</a>
+                    <a href="/admin/invite-preview<?=toQueryString(["name" => $tr[1], "email" => $tr[2], "festival" => $festival, "code" => $code, "invitecode" => $tr[0]])?>"  class="btn p-2">초대장미리보기</a>
                 </td>
             </tr>
             <?php endforeach;?>

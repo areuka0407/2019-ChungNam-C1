@@ -1250,7 +1250,8 @@ footer .copyright { color: #bbb; }
 
 /* 초대장 미리보기
 */
-#invite-preview { max-width: 780px; margin: 80px auto; text-align: center; box-shadow: 0 1px 3px 1px #00000020; padding: 80px 50px; }
+#invite-preview { max-width: 780px; margin: 80px auto; text-align: center; box-shadow: 0 1px 3px 1px #00000020; padding: 90px 50px; position: relative; }
+#invite-preview .invite-code { position: absolute; left: 30px; top: 30px; color: #888; }
 #invite-preview .title { margin-bottom: 80px; }
 #invite-preview .title h1 { margin-bottom: 0.4em; color: #30365c; }
 #invite-preview .title h2 { color: #555; }

@@ -29,7 +29,7 @@ class InviteController {
     }
 
     function previewPage(){
-        $viewData = _get(["name", "email", "festival", "code"]);
+        $viewData = _get(["name", "email", "festival", "code", "invitecode"]);
         extract($viewData);
         $viewData['site'] = DB::fetch("SELECT * FROM sites WHERE code = ?", [$code]);
         view("invite-preview", $viewData);

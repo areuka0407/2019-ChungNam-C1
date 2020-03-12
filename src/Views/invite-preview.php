@@ -3,6 +3,7 @@ $https = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== "off" && $_SERVER['SE
 ?>
 
 <div id="invite-preview">
+    <div class="invite-code"><?=$invitecode?></div>
     <div class="title">
         <h1><?=$festival?></h1>
         <h2>당신을 초대합니다</h2>
