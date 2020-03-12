@@ -1,9 +1,9 @@
-@charset "UTF-8";
+    @charset "UTF-8";
 
 /* 기본 설정
 */
 
-* {
+*, ::before, ::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -1257,3 +1257,22 @@ footer .copyright { color: #bbb; }
 #invite-preview p { color: #666; line-height: 2em; white-space: pre-line }
 #invite-preview p b { color: #2f3769; }
 #invite-preview .site-link { color: #2f3769; font-weight: bold; font-size: 1.1em; margin-top: 20px; display: inline-block; }
+
+
+
+/* 옵션 버튼
+*/ 
+
+.topper { position: relative; width: 100%; overflow: hidden; }
+
+.btn-option {
+    display: none;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-size: 0.9em;
+    background-color: #fff;
+}
+
+.topper.active::before { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 100%; border: 5px solid rgb(238, 39, 39); z-index: 100; pointer-events: none; }
+.topper.active .btn-option { display: block; }
